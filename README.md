@@ -34,7 +34,7 @@ Uygulama, büyük veri setlerini (OpenAlex) işleyerek makalelerin ağ içindeki
 
 | Genel Görünüm | H-Core Analizi | K-Core Analizi |
 | :---: | :---: | :---: |
-| ![Genel](general_view.png) | ![H-Core](hcore_view.png) | ![K-Core](kcore_view.png) |
+| ![Genel](img/general_view.png) | ![H-Core](img/hcore_view.png) | ![K-Core](img/kcore_view.png) |
 
 ## ⚙️ Kurulum ve Çalıştırma
 
