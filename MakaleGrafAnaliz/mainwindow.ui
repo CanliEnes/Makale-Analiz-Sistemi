@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1522</width>
+    <height>791</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="lblToplamRef">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>0</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ToplamRef:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblToplamMakale">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>30</y>
+      <width>241</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ToplamMakale:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblEnCokAtif">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>50</y>
+      <width>601</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>EnCokAtif:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtMakaleId">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>370</y>
+      <width>281</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnHesapla">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>400</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>H-Core Analiz</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblHIndex">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>80</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>HIndex:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblHMedian">
+    <property name="geometry">
+     <rect>
+      <x>1220</x>
+      <y>110</y>
+      <width>171</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>HMedian:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnGenelGoster">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>440</y>
+      <width>281</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Genel Görünüm</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnAnalizYap">
+    <property name="geometry">
+     <rect>
+      <x>1360</x>
+      <y>400</y>
+      <width>171</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>K-core Analiz</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1211</width>
+      <height>731</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>graphicsView</zorder>
+   <zorder>lblToplamRef</zorder>
+   <zorder>lblToplamMakale</zorder>
+   <zorder>lblEnCokAtif</zorder>
+   <zorder>txtMakaleId</zorder>
+   <zorder>btnHesapla</zorder>
+   <zorder>lblHIndex</zorder>
+   <zorder>lblHMedian</zorder>
+   <zorder>btnGenelGoster</zorder>
+   <zorder>btnAnalizYap</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1522</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
