@@ -1,58 +1,87 @@
-# Makale-Analiz-Sistemi
-Akademik atıf ağlarını analiz eden yüksek performanslı C++/Qt uygulaması. İteratif K-Core ayrıştırma, Brandes tabanlı Betweenness Centrality (Ara Merkeziyet), H-Index hesaplamaları ve çakışma önleyici spiral yerleşim algoritmasıyla dinamik graf görselleştirme içerir.
+# Makale Analiz Sistemi
 
-Bu proje, bilimsel makaleler arasındaki karmaşık atıf ilişkilerini modellemek, akademik etki metriklerini hesaplamak ve bu verileri interaktif bir şekilde görselleştirmek amacıyla geliştirilmiş bir masaüstü uygulamasıdır. 
+Bilimsel makaleler arasındaki atıf ilişkilerini graf olarak çizen ve bu graf üzerinde **H-Index**,
+**H-Median**, **ara merkeziyet (betweenness centrality)** ve **K-Core** analizleri yapan bir C++/Qt
+masaüstü uygulaması. Bir makaleden başlayıp tıklanan makalelerin H-Core'larıyla graf adım adım
+genişletilebilir.
 
-Uygulama, büyük veri setlerini (OpenAlex) işleyerek makalelerin ağ içindeki stratejik konumlarını ve dahil oldukları akademik toplulukları tespit eder.
+> **EN —** A C++/Qt desktop app that models citation networks from OpenAlex data and draws them
+> as an interactive graph. It computes H-Index and H-Median for a selected paper, expands the graph
+> through H-Cores on click, and runs Brandes betweenness centrality and iterative K-Core
+> decomposition on the visible graph. JSON is parsed by hand, without a JSON library.
 
-## 🚀 Öne Çıkan Özellikler
+![Genel görünüm](docs/general_view.png)
 
-*   **Saf C++ Veri İşleme:** Herhangi bir harici JSON kütüphanesi kullanmadan, bellek verimliliği için optimize edilmiş, anahtar kelime tabanlı hızlı veri ayrıştırıcı (Manual Parser).
-*   **Gelişmiş Analiz Metrikleri:**
-    *   **Betweenness Centrality (Ara Merkeziyet):** Brandes algoritması kullanılarak grafın "köprü" makalelerinin tespiti ve stratejik düğümlerin boyutlandırılması.
-    *   **K-Core Decomposition:** Ağın en yoğun çekirdek yapısını belirleyen, komşuluk derecelerini anlık güncelleyen iteratif budama (pruning) algoritması.
-    *   **H-Index & H-Median:** Makale bazlı akademik başarı ölçümü ve çekirdek grup performans analizi.
-*   **Dinamik Görselleştirme:**
-    *   **Spiral Yerleşim (Collision Detection):** Yeni düğümler eklenirken üst üste binmeyi engelleyen akıllı çakışma kontrolü ve spiral yayılım mantığı.
-    *   **Modüler Görünüm:** Analiz modunda yönlü okların otomatik olarak yönsüz (undirected) kenarlara dönüşümü ve soluklaştırma efektleri.
-    *   **Etkileşimli Arayüz:** Düğüm üzerine gelindiğinde anlık bilgi kartı (Tooltip) gösterimi ve tıklama ile grafın derinlemesine genişletilmesi.
+- **Dil:** C++17 — veri ve analiz kısmı yalnızca STL (`map`, `set`, `queue`)
+- **Arayüz:** Qt 6 Widgets (`QGraphicsView`, `QGraphicsScene`)
+- **Veri:** OpenAlex'ten alınmış makale kayıtları (JSON)
 
-## 🛠 Kullanılan Teknolojiler
+Geliştiren: Enes Canlı
 
-*   **Dil:** C++ (Saf STL kullanımı: `std::map`, `std::set`, `std::queue`, `std::stack`, `std::stringstream`)
-*   **Arayüz ve Grafik:** Qt Framework (QGraphicsView, QGraphicsScene, GUI)
-*   **Veri Seti:** OpenAlex Akademik Veri Tabanı
+## Öne çıkanlar
 
-## 📂 Proje Yapısı
+- **Kütüphanesiz JSON okuma.** Veri dosyası tek seferde belleğe alınır, her `"id"` anahtarından bir
+  sonrakine kadar olan blok ayrı bir makale olarak ayrıştırılır; başlık, yıl, yazarlar ve
+  referanslar bu bloktan çekilir.
+- **H-Core ile genişleyen graf.** Seçilen makaleye atıf yapan makaleler kendi atıf sayılarına göre
+  sıralanır; H-Index ve H-Median bu sıradan hesaplanır, H-Core'daki makaleler grafa eklenir.
+  Yeni bir düğüme tıklamak grafı o düğümün H-Core'u ile büyütür.
+- **Çakışmayan yerleşim.** Yeni düğüm, merkezin çevresinde bir çembere yerleştirilir; başka bir
+  düğüme 180 pikselden yakın düşerse yarıçap büyütülüp açı kaydırılarak (spiral) boş yer aranır.
+- **Brandes algoritmasıyla ara merkeziyet.** Her düğümden BFS ile en kısa yol sayıları bulunur,
+  bağımlılıklar ters sırada toplanır. Köprü konumundaki makaleler daha büyük çizilir.
+- **İteratif K-Core.** Derecesi `k`'dan küçük düğümler silinir, komşularının derecesi düşürülür ve
+  değişiklik kalmayana kadar tekrarlanır. Çekirdekteki düğümler renklendirilir, dışındakiler
+  soluklaşır.
 
-*   `MainWindow`: Uygulama akışı, buton yönetimi ve ana analiz algoritmaları.
-*   `DugumItem`: Grafiksel düğüm (node) tasarımı, etiket yönetimi ve görsel efektler.
-*   `okluCizgiCiz`: Trigonometrik hesaplamalar ile vektörel ok ve çizgi motoru.
-*   `veriyiYukleSafCPP`: Blok bazlı yüksek hızlı veri ayrıştırma ünitesi.
+## Çalıştırma
 
-## 📸 Ekran Görüntüleri
+1. Qt Creator'da `MakaleGrafAnaliz/MakaleGrafAnaliz.pro` dosyasını açın (Qt 6, MinGW 64-bit ile
+   denendi).
+2. Veri dosyası repoda yoktur. OpenAlex biçimindeki `data.json` dosyanızın yolunu
+   `MakaleGrafAnaliz/mainwindow.cpp` içindeki `veriyiYukleSafCPP(...)` çağrısına yazın:
 
-| Genel Görünüm | H-Core Analizi | K-Core Analizi |
-| :---: | :---: | :---: |
-| ![Genel](img/general_view.png) | ![H-Core](img/hcore_view.png) | ![K-Core](img/kcore_view.png) |
+   ```cpp
+   veriyiYukleSafCPP("C:/yol/data.json");
+   ```
 
-## ⚙️ Kurulum ve Çalıştırma
+3. Projeyi derleyip çalıştırın.
 
-1.  **Qt Creator** IDE'sini açın.
-2.  `MakaleGrafAnaliz.pro` dosyasını projeye dahil edin.
-3.  `MainWindow.cpp` dosyası içerisindeki `data.json` dosya yolunu kendi bilgisayarınıza göre güncelleyin:
-    ```cpp
-    veriyiYukleSafCPP("C:/Belgelerim/MakaleProjesi/data.json");
-    ```
-4.  Projeyi **Build (Derle)** edin ve çalıştırın.
+## Kullanım
 
-## 📊 Algoritmik Detaylar
+| Düğme / işlem | Ne yapar |
+|---|---|
+| Makale ID + **H-Core Analiz** | Makaleyi merkeze koyar, H-Index ve H-Median'ı gösterir, H-Core'u çizer |
+| Düğüme tıklama | Grafı o makalenin H-Core'u ile genişletir |
+| Düğümün üzerine gelme | Makale bilgisini gösterir |
+| **Genel Görünüm** | ID sırasına göre ilk 50 makaleyi referans (siyah) ve ID sırası (yeşil) oklarıyla çizer |
+| **K-core Analiz** | Ekrandaki graf üzerinde ara merkeziyet ve K-Core (`k = 2`) hesaplar |
 
-### K-Core Algoritması
-Sadece basit derece sayısına bakmak yerine, iteratif bir döngü kullanarak derecesi $k$ değerinden küçük olan düğümleri siler. Bir düğüm silindiğinde ona bağlı komşuların derecesi de düşürüldüğü için, bu işlem stabil bir "çekirdek" grup kalana kadar tekrarlanır.
+Arayüzde ayrıca toplam makale, toplam referans ve en çok atıf alan makale gösterilir.
 
-### Betweenness Centrality
-Ağ üzerindeki her düğüm çifti arasındaki tüm en kısa yolları (BFS) hesaplar. Brandes algoritması sayesinde $O(VE)$ karmaşıklığında çalışarak, grafın merkeziyetini (köprü düğümlerini) doğru bir şekilde tespit eder.
+## Ekran görüntüleri
 
-## 👥 Geliştiriciler
-*   Enes Canlı
+| Genel görünüm | H-Core analizi | K-Core analizi |
+|---|---|---|
+| ![Genel](docs/general_view.png) | ![H-Core](docs/hcore_view.png) | ![K-Core](docs/kcore_view.png) |
+
+## Klasör yapısı
+
+| Yol | İçerik |
+|---|---|
+| `MakaleGrafAnaliz/mainwindow.cpp` | Veri okuma, H-Index/H-Median, graf çizimi ve genişletme, ara merkeziyet, K-Core |
+| `MakaleGrafAnaliz/dugumitem.cpp`, `DugumItem.h` | Graf düğümü: renk, etiket, bilgi kutusu, tıklama |
+| `MakaleGrafAnaliz/makale.h` | `Makale` veri yapısı |
+| `MakaleGrafAnaliz/mainwindow.ui` | Qt Designer arayüz dosyası |
+| `docs/` | Ekran görüntüleri |
+
+## Bilinen sınırlamalar
+
+- Ara merkeziyet ve K-Core tüm veri kümesinde değil, o an ekranda çizili düğümler üzerinde
+  hesaplanır.
+- K-Core için `k` değeri koda sabittir (`k = 2`).
+- Veri dosyasının yolu koda yazılıdır; dosya bulunamazsa graf boş açılır.
+
+## Lisans
+
+MIT
